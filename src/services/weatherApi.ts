@@ -1,4 +1,9 @@
-import type { Weather } from "../types/weather";
+import type {
+  Weather,
+  City,
+  GeoCodingResponse,
+  CurrentWeatherResponse,
+} from "../types/weather";
 
 function getWeatherCondition(code: number): string {
   switch (code) {
@@ -38,29 +43,33 @@ function getWeatherCondition(code: number): string {
       return "🌍 Unknown";
   }
 }
-export async function getWeather(city: string): Promise<Weather> {
-  
-  const geoResponse = await fetch(
-    `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`
-  );
 
-  const geoData = await geoResponse.json();
-
-  if (!geoData.results || geoData.results.length === 0) {
-    throw new Error("City not found");
+export async function searchCities(query: string): Promise<City[]> {
+  if (query.trim().length < 2) {
+    return [];
   }
 
-  const location = geoData.results[0];
-
-  
-  const weatherResponse = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code`
+  const response = await fetch(
+    `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
+      query
+    )}&count=5`
   );
 
-  const weatherData = await weatherResponse.json();
+  const data: GeoCodingResponse = await response.json();
+
+  return data.results ?? [];
+}
+
+export async function getWeather(city: City): Promise<Weather> {
+  const response = await fetch(
+    `https://api.open-meteo.com/v1/forecast?latitude=${city.latitude}&longitude=${city.longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code`
+  );
+
+  const weatherData: CurrentWeatherResponse =
+    await response.json();
 
   return {
-    city: location.name,
+    city: `${city.name}, ${city.country}`,
     temperature: weatherData.current.temperature_2m,
     humidity: weatherData.current.relative_humidity_2m,
     windSpeed: weatherData.current.wind_speed_10m,

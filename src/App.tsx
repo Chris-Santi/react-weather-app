@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SearchBar } from "./components/SearchBar";
 import { WeatherCard } from "./components/WeatherCard";
-import type { Weather } from "./types/weather";
+import type { Weather, City } from "./types/weather";
 import { getWeather } from "./services/weatherApi";
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  async function handleSearch(city: string) {
+  async function handleSearch(city: City) {
     try {
       setLoading(true);
       setError("");
@@ -17,9 +17,9 @@ function App() {
       const data = await getWeather(city);
 
       setWeather(data);
-    } catch  {
+    } catch {
       setWeather(null);
-      setError("City not found.");
+      setError("Unable to load weather data.");
     } finally {
       setLoading(false);
     }
@@ -29,9 +29,14 @@ function App() {
     <div className="app">
       <h1>🌤 Weather App</h1>
 
-      <SearchBar onSearch={handleSearch} />
-
-      {loading && <p>Loading...</p>}
+      <SearchBar
+  onSearch={handleSearch}
+  onClear={() => {
+    setWeather(null);
+    setError("");
+  }}
+/>
+      {loading && <p className="loading">Loading...</p>}
 
       {error && <p className="error">{error}</p>}
 

@@ -7,11 +7,9 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
   min-height: 100vh;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   background: linear-gradient(135deg, #4facfe, #00c6fb);
 }
 
@@ -22,124 +20,181 @@ body {
 .app {
   width: 420px;
   margin: auto;
-
   background: white;
-
   border-radius: 20px;
-
   padding: 30px;
-
-  box-shadow: 0 15px 40px rgba(0,0,0,.25);
-
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
   text-align: center;
 }
 
-.app h1{
-  margin-bottom:25px;
-  color:#1f2937;
+.app h1 {
+  margin-bottom: 25px;
+  color: #1f2937;
 }
 
-.search-bar{
-  display:flex;
-  gap:10px;
+
+
+.search-container {
+  position: relative;
+  width: 100%;
 }
 
-.search-bar input{
-  flex:1;
-  padding:14px;
-
-  border-radius:10px;
-  border:1px solid #ccc;
-
-  font-size:16px;
+.search-container input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.search-bar button{
-
-  background:#2563eb;
-
-  color:white;
-
-  border:none;
-
-  border-radius:10px;
-
-  padding:14px 18px;
-
-  cursor:pointer;
-
-  transition:.3s;
+.search-container input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
-.search-bar button:hover{
-
-  background:#1d4ed8;
-
+.suggestions {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+  list-style: none;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 1000;
 }
 
-.weather-card{
-
-  margin-top:30px;
-
-  background:linear-gradient(135deg,#2563eb,#3b82f6);
-
-  color:white;
-
-  border-radius:18px;
-
-  padding:30px;
+.suggestions li {
+  padding: 14px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #f3f4f6;
+  text-align: left;
+  transition: background-color 0.2s ease;
 }
 
-.weather-card h2{
-
-  font-size:34px;
-
+.suggestions li:last-child {
+  border-bottom: none;
 }
 
-.temperature{
-
-  font-size:70px;
-
-  font-weight:bold;
-
-  margin:20px 0;
+.suggestions li:hover {
+  background-color: #eff6ff;
 }
 
-.condition{
 
-  font-size:22px;
 
-  margin-bottom:25px;
+.weather-card {
+  margin-top: 30px;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: white;
+  border-radius: 18px;
+  padding: 30px;
 }
 
-.weather-details{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  margin-top:20px;
+.weather-card h2 {
+  font-size: 34px;
 }
 
-.detail{
-
-  display:flex;
-
-  gap:12px;
-
-  align-items:center;
+.temperature {
+  font-size: 70px;
+  font-weight: bold;
+  margin: 20px 0;
 }
 
-.detail span{
-
-  font-size:30px;
+.condition {
+  font-size: 22px;
+  margin-bottom: 25px;
 }
 
-.error{
+.weather-details {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
 
-  margin-top:20px;
+.detail {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-  color:red;
+.detail span {
+  font-size: 30px;
+}
 
-  font-weight:bold;
+.detail strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.detail p {
+  margin: 0;
+}
+
+
+
+.error {
+  margin-top: 20px;
+  color: #dc2626;
+  font-weight: bold;
+}
+
+.loading {
+  margin-top: 20px;
+  color: #2563eb;
+  font-weight: bold;
+}
+
+
+
+@media (max-width: 480px) {
+  .app {
+    width: 92%;
+    padding: 20px;
+  }
+
+  .temperature {
+    font-size: 56px;
+  }
+
+  .weather-details {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+}
+.status {
+  padding: 14px;
+  text-align: center;
+  color: #6b7280;
+  cursor: default;
+  font-style: italic;
+}
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 14px 42px 14px 16px;
+}
+
+.clear-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 22px;
+  color: #6b7280;
+  transition: color 0.2s ease;
+}
+
+.clear-btn:hover {
+  color: #ef4444;
 }

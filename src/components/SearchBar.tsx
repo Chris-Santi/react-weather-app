@@ -1,39 +1,122 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { searchCities } from "../services/weatherApi";
+import type { City } from "../types/weather";
 
 interface SearchBarProps {
-  onSearch: (city: string) => void;
+  onSearch: (city: City) => void;
+  onClear: () => void;
 }
 
-export function SearchBar({ onSearch }: SearchBarProps) {
-  const [city, setCity] = useState("");
+export function SearchBar({
+  onSearch,
+  onClear,
+}: SearchBarProps) {
+  const [query, setQuery] = useState("");
+  const [cities, setCities] = useState<City[]>([]);
+  const [selectedCity, setSelectedCity] = useState<City | null>(null);
 
-  function handleSearch() {
-    const trimmedCity = city.trim();
+  const [loadingCities, setLoadingCities] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
-    if (trimmedCity === "") return;
+  useEffect(() => {
+    const timeout = setTimeout(async () => {
+      if (query.trim().length < 2 || selectedCity) {
+        setCities([]);
+        return;
+      }
 
-    onSearch(trimmedCity);
+      setLoadingCities(true);
+
+      try {
+        const results = await searchCities(query);
+
+        setCities(results);
+        setShowSuggestions(true);
+      } finally {
+        setLoadingCities(false);
+      }
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [query, selectedCity]);
+
+  function handleSelect(city: City) {
+    setSelectedCity(city);
+
+    setQuery(`${city.name}, ${city.country}`);
+
+    setCities([]);
+
+    setShowSuggestions(false);
+
+    onSearch(city);
   }
+  function handleClear() {
+  setQuery("");
+  setCities([]);
+  setSelectedCity(null);
+  setShowSuggestions(false);
 
-  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
-  }
+  onClear();
+}
 
   return (
-    <div className="search-bar">
-      <input
-        type="text"
-        placeholder="Enter a city..."
-        value={city}
-        onChange={(e) => setCity(e.target.value)}
-        onKeyDown={handleKeyDown}
-      />
+    <div className="search-container">
+  <div className="input-wrapper">
+    <input
+      type="text"
+      placeholder="Search city..."
+      value={query}
+      onChange={(e) => {
+        setQuery(e.target.value);
+        setSelectedCity(null);
+      }}
+      onFocus={() => {
+        if (cities.length > 0) {
+          setShowSuggestions(true);
+        }
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
 
-      <button onClick={handleSearch}>
-        🔍 Search
+          if (selectedCity) {
+            onSearch(selectedCity);
+          }
+        }
+      }}
+    />
+
+    {query && (
+      <button
+        className="clear-btn"
+        onClick={handleClear}
+      >
+        ×
       </button>
+    )}
+  </div>
+
+      {showSuggestions && (
+        <ul className="suggestions">
+          {loadingCities ? (
+            <li className="status">Searching cities...</li>
+          ) : cities.length > 0 ? (
+            cities.map((city) => (
+              <li
+                key={`${city.name}-${city.latitude}-${city.longitude}`}
+                onClick={() => handleSelect(city)}
+              >
+                {city.name}, {city.country}
+              </li>
+            ))
+          ) : (
+            query.trim().length >= 2 && (
+              <li className="status">No cities found</li>
+            )
+          )}
+        </ul>
+      )}
     </div>
   );
 }
