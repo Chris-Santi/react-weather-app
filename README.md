@@ -1,22 +1,45 @@
-# React Weather App
-
 <p align="center">
   <img src="docs/weather-app-banner.png" alt="React Weather App Banner" width="100%">
 </p>
 
+# 🌦 React Weather App
+
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)
 ![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite)
-![Status](https://img.shields.io/badge/Status-Completed-success)
 ![License](https://img.shields.io/badge/License-MIT-green)
+![Status](https://img.shields.io/badge/Status-Live-success)
 
-A modern, responsive weather application built with **React**, **TypeScript**, and **Vite** that provides real-time weather information through a clean and intuitive user interface.
+A modern and responsive weather application built with **React**, **TypeScript**, and **Vite** that provides real-time weather information through intelligent city autocomplete, accurate location-based searches, and a clean, intuitive user interface.
+
+## 📑 Table of Contents
+
+- [🚀 Live Demo](#-live-demo)
+- [📸 Preview](#-preview)
+- [✨ Features](#-features)
+- [🛠 Tech Stack](#️-tech-stack)
+- [📂 Project Structure](#-project-structure)
+- [⚙️ Getting Started](#️-getting-started)
+- [🧠 Engineering Decisions](#-engineering-decisions)
+- [💡 Challenges](#-challenges)
+- [📚 What I Learned](#-what-i-learned)
+- [🔮 Future Improvements](#-future-improvements)
+- [👨‍💻 Author](#-author)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
 ---
 
-# Live Demo
+## 🚀 Live Demo
 
- **Live Application**
+<p align="center">
+  <img
+    src="docs/screenshots/weather-demo.gif"
+    alt="React Weather App Demo"
+    width="900">
+</p>
+
+🌐 **Live Application**
 
 https://react-weather-app-navy-one.vercel.app
 
@@ -206,19 +229,19 @@ This project strengthened my understanding of:
 
 ---
 
-# Author
+## 👨‍💻 Author
 
-## Christian Adike
+### Christian Adike
 
 **Software Engineer | Front-End Developer | React Developer | Flutter Developer**
 
-🌐 Portfolio  
+🌐 **Portfolio**  
 https://adike-christian-portfolio.webflow.io/
 
-💻 GitHub  
+💻 **GitHub**  
 https://github.com/Chris-Santi
 
-💼 LinkedIn  
+💼 **LinkedIn**  
 https://linkedin.com/in/christian-adike-99709b321
 
 ---
@@ -234,3 +257,17 @@ If you have suggestions for improving the project, feel free to fork the reposit
 # Support
 
 If you found this project useful, please consider giving it a ⭐ on GitHub. It helps support my work and encourages future improvements.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
+See the [LICENSE](LICENSE) file for more information.
+
+---
+
+<p align="center">
+Made with ❤️ by <strong>Christian Adike</strong>
+</p>
